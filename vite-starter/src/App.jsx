@@ -7,11 +7,20 @@ function App() {
 
   return (
     <div>
-      <button 
-        className={buttonColor} 
+      <button
+        className={buttonColor}
         onClick={() => setButtonColor(nextColor)}>
-          Change to {nextColor}
-        </button>
+        Change to {nextColor}
+      </button>
+      <br />
+      <input
+        type='checkbox'
+        id='disable-button-checkbox'
+        defaultChecked={false}
+      />
+      <label htmlFor='disable-button-checkbox'>
+        Disable button
+      </label>
     </div>
   );
 }
