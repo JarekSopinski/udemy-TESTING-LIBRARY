@@ -2,14 +2,15 @@ import React from 'react';
 import './App.css';
 
 function App() {
-  const [buttonColor, setButtonColor] = React.useState('red');
   const [disabled, setDisabled] = React.useState(false);
+  const [buttonColor, setButtonColor] = React.useState('red');
   const nextColor = buttonColor === 'red' ? 'blue' : 'red';
+  const className = disabled ? 'grey' : buttonColor;
 
   return (
     <div>
       <button
-        className={buttonColor}
+        className={className}
         onClick={() => setButtonColor(nextColor)}
         disabled={disabled}
       >
