@@ -1,4 +1,4 @@
-import Col from 'react-bootstrap';
+import { Col } from "react-bootstrap";
 
 // eslint-disable-next-line react/prop-types
 const ScoopOption = ({ name, imagePath }) => {
