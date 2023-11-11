@@ -1,8 +1,10 @@
+import { logRoles } from '@testing-library/react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
 test('buttons starts with correct color', () => {
-    render(<App />);
+    const { container } = render(<App />);
+    logRoles(container);
     const buttonElement = screen.getByRole('button', {name: /blue/i});
     expect(buttonElement).toHaveClass('red');
 });
