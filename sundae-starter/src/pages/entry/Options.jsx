@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import axios from 'axios';
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment, useMemo } from 'react';
 import { Row } from 'react-bootstrap';
 import ScoopOption from './ScoopOption';
 import ToppingOption from './ToppingOption';
@@ -16,11 +16,24 @@ const Options = ({ optionType }) => {
     const [error, setError] = useState(false);
     const { totals } = useOrderDetails();
 
+    // create an abortController to attach to network request
+    const controller = useMemo(() => new AbortController(), []);
+
     useEffect(() => {
-        axios.get(`http://localhost:3030/${optionType}`)
+        axios.get(`http://localhost:3030/${optionType}`, { signal: controller.signal })
             .then(res => setItems(res.data))
-            .catch(() => setError(true))
-    }, [optionType]);
+            .catch((error) => {
+                if (error.name !== 'CanceledError') {
+                    setError(true);
+                }
+            });
+
+        // abort axios call on component unmount
+        return () => {
+            // @FIXME
+            // controller.abort();
+        }
+    }, [controller, optionType]);
 
     if (error) {
         return <AlertBanner />
