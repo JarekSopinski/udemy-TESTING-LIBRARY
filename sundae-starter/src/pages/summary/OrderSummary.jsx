@@ -2,7 +2,7 @@ import SummaryForm from './SummaryForm';
 import { useOrderDetails } from '../../contexts/OrderDetails';
 import { formatCurrency } from '../../utilities';
 
-export default function OrderSummary() {
+export default function OrderSummary({ setOrderPhase }) {
 
     const { totals, optionCounts } = useOrderDetails();
 
@@ -31,7 +31,7 @@ export default function OrderSummary() {
             <ul>
                 {toppingList}
             </ul>
-            <SummaryForm />
+            <SummaryForm setOrderPhase={setOrderPhase} />
         </div>
     )
 }
