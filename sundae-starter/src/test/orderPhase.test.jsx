@@ -103,3 +103,30 @@ test('order phases for happy path', async () => {
     // unmount the component to trigger cleanup
     unmount();
 })
+
+test('Toppings header is not on summary page if no toppings ordered', async () => {
+    const user = userEvent.setup();
+
+    // render app
+    render(<App />);
+
+    // add ice cream scoops
+    const vanillaInput = await screen.findByRole('spinbutton', {
+        name: 'Vanilla'
+    });
+    await user.clear(vanillaInput);
+    await user.type(vanillaInput, '1');
+
+    // find and click order summary button -> go to summary page
+    const orderSummaryButton = screen.getByRole('button', {
+        name: /order sundae/i,
+    });
+    await user.click(orderSummaryButton);
+
+
+    // Use queryByRole to search for non-existing element - getByRole would throw an error
+    const toppingsHeading = screen.queryByRole('heading', {
+        name: /toppings/i
+    });
+    expect(toppingsHeading).not.toBeInTheDocument();
+})
