@@ -21,7 +21,8 @@ const ScoopOption = ({ name, imagePath }) => {
 
         setValid(valueIsValid);
 
-        updateItemCount(name, parseInt(currentValue), 'scoops')
+        const newValue = valueIsValid ? parseInt(currentValue) : 0;
+        updateItemCount(name, newValue, 'scoops')
     };
 
     return (
