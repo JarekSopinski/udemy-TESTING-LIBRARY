@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 
 // eslint-disable-next-line react/prop-types
@@ -8,15 +8,17 @@ export default function OrderConfirmation({ setOrderPhase }) {
 
     const { resetOrder } = useOrderDetails();
     const [orderNumber, setOrderNumber] = useState(null);
+    const [isError, setError] = useState(false);
 
     useEffect(() => {
         axios
             .post('http://localhost:3030/order')
             .then(res => {
                 setOrderNumber(res.data.orderNumber);
+                setError(false);
             })
-            .catch(err => {
-                // TODO: handle error
+            .catch(() => {
+                setError(true);
             })
     }, []);
 
@@ -28,7 +30,14 @@ export default function OrderConfirmation({ setOrderPhase }) {
         setOrderPhase('inProgress');
     }
 
-    if (orderNumber) {
+    if (isError) {
+        return (
+            <Alert>
+                An unexpected error occurred.
+            </Alert>
+        )
+    }
+    else if (orderNumber) {
         return(
             <div style={{ textAlign: 'center' }}>
                 <h1>Thank You!</h1>
